@@ -1,0 +1,43 @@
+PROJECT(P3DEngine)
+FILE(GLOB Base_Files "*h" "*.cpp" "*.hpp" "./mgs/*.hpp" "./mgs/*.cpp"  "./loader/*.h" "./loader/*.cpp" "./loader/.hpp" )
+FILE(GLOB_RECURSE Gl_Files "./OPenGL/*h" "./OPenGL/*.cpp" "./OPenGL/*.hpp")
+FILE(GLOB_RECURSE Vul_Files "./Vul/*.h" "./Vul/*.cpp" "./Vul/*.hpp")
+FILE(GLOB_RECURSE EXT_Files "./extern/*.h" "./extern/*.cpp" "extern/*.hpp")
+
+set(IN_DIRS ${PROJECT_SOURCE_DIR} ${GLFW_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS} ..)
+IF (IS_WINDOWS)
+	set(ALL_SRC_FILE ${Base_Files} ${Gl_Files})
+	 set(IN_DIRS ${IN_DIRS} ${ASSIMP_INCLUDE})
+    message( "Platform is Windows OR MAC_OS")
+ELSEIF(IS_LINUX OR IS_MACOS)
+	set(ALL_SRC_FILE ${Base_Files} ${Gl_Files})
+    message( "Platform is Unix")
+    #include(cmake/LinuxConfig.cmake)
+ELSEIF(IS_IOS)
+	set(ALL_SRC_FILE ${Base_Files} ${Gl_Files})
+ENDIF()
+IF(IS_WINDOWS OR IS_MACOS)
+	set(ALL_SRC_FILE ${ALL_SRC_FILE} ${EXT_Files})
+ENDIF()
+
+find_package(OpenCV REQUIRED)
+include_directories(${IN_DIRS} ${OPENCV_INCLUDE_DIRS})
+
+add_library(${PROJECT_NAME} STATIC ${ALL_SRC_FILE})
+getGL_libs(gl_libs)
+target_link_libraries(${PROJECT_NAME} common geo fbx ${gl_libs} p3d_assimp ${OpenCV_LIBS} cv_common)
+
+
+find_package(Vulkan)
+IF (Vulkan_FOUND AND WIN32)
+    message(" Vulkan library!")
+	message(${Vulkan_INCLUDE_DIRS})
+	include_directories(${Vulkan_INCLUDE_DIRS})
+	add_definitions(-DVULKAN_ENABLE=0)
+	target_link_libraries(${PROJECT_NAME} ${Vulkan_LIBRARIES})
+	
+ELSE()
+	message("Cannot Find Vulkan")
+ENDIF()
+#set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER products)
+

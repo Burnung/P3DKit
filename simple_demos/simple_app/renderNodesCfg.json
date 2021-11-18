@@ -1,0 +1,120 @@
+[
+    {
+        "is_use": 1,
+        "name": "back_img_show",
+        "type": "imgFilter",
+        "priority":0,
+        "fbo_name":"back_img",
+        "fbo_ratio":[0.5,1.0],
+        "shader":{
+            "name":"copy_fs",
+            "fs_path": "copy_fs.frag"
+        },
+        "tex_uniforms":[
+                {"name":"src_img",
+                "sampler":"s_tex"}
+        ]
+    },
+    {
+    "name": "merge_show_src",
+    "type": "imgFilter",
+    "priority":5,
+    "fbo_name":"merge_fbo",
+    "shader":{
+        "name":"copy_rect",
+        "fs_path": "copy_rect.frag"
+    },
+    "tex_uniforms":[
+            {"name":"$back_img_0",
+            "sampler":"s_tex"}
+    ],
+    "uniforms":{
+        "rect":{
+            "Type":["Vec4"],
+            "Data":[-1.0,0.0,-1.0,1.0]
+        }
+    }
+    },
+    {
+    "name": "merge_show_3d",
+    "type": "imgFilter",
+    "priority":5,
+    "fbo_name":"merge_fbo",
+    "shader":{
+        "name":"copy_rect",
+        "fs_path": "copy_rect.frag"
+    },
+    "tex_uniforms":[
+            {"name":"$forwardFbo_0",
+            "sampler":"s_tex"}
+    ],
+    "uniforms":{
+        "rect":{
+            "Type":["Vec4"],
+            "Data":[0.0,1.0,-1.0,1.0]
+        }
+    }
+    },
+    {
+        "name": "ret_show_screen",
+        "type": "imgFilter",
+        "priority":6,
+        "fbo_name":"$screen",
+        "shader":{
+            "name":"copy_fs",
+            "fs_path": "copy_fs.frag"
+        },
+        "tex_uniforms":[
+                {"name":"$merge_fbo_0",
+                "sampler":"s_tex"}
+        ]
+    },
+    {
+        "is_use": 1,
+        "name": "show",
+        "type": "imgFilter",
+        "priority":0,
+        "fbo_name":"forwardFbo",
+        "fbo_ratio":[0.5,1.0],
+        "shader":{
+            "name":"copy_fs",
+            "fs_path": "copy_fs.frag"
+        },
+        "tex_uniforms":[
+                {"name":"lds_img",
+                "sampler":"s_tex"}
+        ]
+        
+    },
+    {
+     "name":"forward",
+     "type":"custom", 
+     "priority":1,
+     "fbo_name":"forwardFbo",
+      "fbo_ratio":[0.5,1.0],
+     "shader":{
+         "name":"face",
+         "vs_path":"shaders/face.vert",
+         "fs_path":"shaders/face.frag"
+     },
+     "renderables":[
+          "face"
+     ],
+     "camera":{
+         "name":"mainCam"
+     },
+     "uniforms":{
+         "t_alpha":{
+            "Type":["Float"],
+            "Data":1.0,
+            "valueName":"alpha_3d"
+         }
+     },
+     "tex_uniforms":[
+        {"name":"face_tex",
+        "sampler":"face_tex"}
+]
+
+    }
+
+]

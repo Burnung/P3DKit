@@ -1,0 +1,69 @@
+#include "OGLVboLine.h"
+#include "OGLShader.h"
+BEGIN_P3D_NS
+
+
+void GLVboLine::release() {
+	vpsBuffer = nullptr;
+	tlBuffer = nullptr;
+	if (vao != 0) {
+		glDeleteVertexArrays(1, &vao);
+		vao = 0;
+	}
+}
+GLVboLine::~GLVboLine() {
+	release();
+}
+void GLVboLine::init(pDataBlock vps, pDataBlock tl) {
+
+	release();
+	vpsBuffer = std::make_shared<OGLVertexBuffer>();
+	
+	vpsBuffer->init(VERTEX_BUFFER_ARRAY, DYNAMIC_DRAW,vps->getDataType(),vps);
+
+	tlBuffer = std::make_shared<OGLVertexBuffer>();
+	tlBuffer->init(VERTEX_BUFFER_ELEMETN, STATIC_DRAW,tl->getDataType(), tl);
+	nLine = tl->getSize() / 2 / DTypeUtil::getSize(tl->getDataType());
+
+	pGeo = std::make_shared<OGLUserMeshGPU>();
+	pGeo->addVertexData(vpsBuffer, ATTRINAME[LOC_VPS], 3, 0);
+	pGeo->addElementBuffer(tlBuffer, GEO_TYPE_LINES);
+	pGeo->setShader(mShader);
+	pGeo->commit();
+	/*
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	vpsBuffer->applay();
+	glVertexAttribPointer(attrLoc[LOC_VPS], 3, GL_FLOAT, GL_FALSE,0, nullptr);
+	glEnableVertexAttribArray(attrLoc[LOC_VPS]);
+	tlBuffer->applay();
+
+	glBindVertexArray(0);
+	*/
+}
+
+void GLVboLine::update(pDataBlock vps) {
+
+	vpsBuffer->update(vps);
+}
+
+void GLVboLine::draw() {
+	pGeo->setModelMat(modelMat);
+	pGeo->draw();
+	/*
+	mShader->setUniformMat(SHADER_KEY_WORDS::MODEL_MAT, modelMat);
+	mShader->applay();
+	glBindVertexArray(vao);
+	glDrawElements(GL_LINES, 2*nLine , GL_UNSIGNED_INT, (void*)0);
+	*/
+}
+
+void GLVboLine::setShader(pShader tShader) {
+	mShader = std::dynamic_pointer_cast<GLShader>(tShader);
+	doFor(k, LOC_NUM) {
+		attrLoc[k] = mShader->getAttriLoc(ATTRINAME[k]);
+	}
+}
+
+END_P3D_NS

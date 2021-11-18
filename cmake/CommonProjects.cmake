@@ -1,0 +1,6 @@
+add_subdirectory(common)
+add_subdirectory(engine)
+add_subdirectory(geo)
+add_subdirectory(cv_common)
+add_subdirectory(products)
+#add_subdirectory(tools)

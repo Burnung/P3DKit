@@ -1,0 +1,35 @@
+#pragma once
+#include "LineGPU.h"
+#include "common/RenderCommon.h"
+#include "OGLCommon.h"
+#include "OGLShader.h"
+#include "OGLVertexBuffer.h"
+#include "OGLUserMeshGpu.h"
+
+BEGIN_P3D_NS
+
+class GLVboLine : public LineGPU {
+public:
+	virtual ~GLVboLine();
+	virtual void setShader(pShader tShader);
+	virtual pShader getShader()override { return mShader; }
+	virtual void init(pDataBlock vps, pDataBlock tl);
+	virtual void update(pDataBlock vps);
+	virtual void draw();
+private:
+	void release();
+
+private:
+	std::array<uint32,LOC_NUM> attrLoc;
+	//uint32  vpsBuffer = 0, tlBuffer = 0;
+	pGLVertexBuffer vpsBuffer = nullptr, tlBuffer = nullptr;
+	uint32 vao;
+	uint32 nLine = 0;
+	pGLShader mShader;
+	pGLUserMeshGPU pGeo;
+	
+	
+};
+typedef std::shared_ptr<GLVboLine> pGLVboLine;
+
+END_P3D_NS

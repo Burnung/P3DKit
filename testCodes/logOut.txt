@@ -1,0 +1,14 @@
+Successfully created OpenGL-window, version 4.3
+GLSL-version: 4.30 NVIDIA via Cg compiler
+GLUtils::checkGLError tag = createBuffer no error!
+
+GLUtils::checkGLError tag = createBuffer no error!
+
+GLUtils::checkGLError tag = createBuffer no error!
+
+GLUtils::checkGLError tag = createBuffer no error!
+
+GLUtils::checkGLError tag = createBuffer no error!
+
+GLUtils::checkGLError tag = createBuffer no error!
+
