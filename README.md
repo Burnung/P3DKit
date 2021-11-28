@@ -19,6 +19,6 @@
 4、testCodes和apps为各种测试代码，编译为可执行程序；
 
 simple_demos有渲染配置和python编程的一般示例。
-代码仅做展示只用，部分代码并未上传。
+工程仅做展示之用，部分代码并未上传。
 
 ![界面示例](https://user-images.githubusercontent.com/11502448/143743668-59552645-e177-48de-962c-83a53cd5fc4d.jpg)
