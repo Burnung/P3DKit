@@ -12,8 +12,9 @@
 1、common目录内存放各种基本机构，基本操作和各种宏定义等，包括文件和字符串操作以及各种基础模板等；
 2、engine目录内存放渲染相关文件，外层文件为一般抽象。
   (1)engine/OPenGL存放opengl实现，engine/Vul存放vulkan实现（待拓展）；
-  (2)engine/loader实现模型和图片的load，大部分模型的load通过assimp实现，fbx文件则通过fbxSDK实现，只是bs，joints和骨骼动画；
+  (2)engine/loader实现模型和图片的load，大部分模型的load通过assimp实现，fbx文件则通过fbxSDK实现，支持bs，joints和骨骼动画；
   (3)engine/mgs包含各种逻辑层面的实现，包括渲染和场景管理器，渲染节点等，场景解析和渲染解析也在这里实现，脚本化渲染依赖于此；
   (4) extern包含一些拓展功能，目前的鼠标键盘控制模块由此实现，基于中介者模式，可随意添加listener实现控制功能的拓展；
 3、products内包含各种中间功能模块，可依赖于common和engine模块，也可交叉依赖，baseApp也存放在此模块内；
-4、testCodes和apps为各种测试代码，为直接的可执行程序
+4、testCodes和apps为各种测试代码，编译为可执行程序；
+
