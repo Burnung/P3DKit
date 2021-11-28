@@ -18,3 +18,5 @@
 3、products内包含各种中间功能模块，可依赖于common和engine模块，也可交叉依赖，baseApp也存放在此模块内；
 4、testCodes和apps为各种测试代码，编译为可执行程序；
 
+simple_demos有渲染配置和python编程的一般示例。
+代码仅做展示只用，部分代码并未上传。
